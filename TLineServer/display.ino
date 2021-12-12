@@ -8,25 +8,7 @@ char displaybuffer[4] = {' ', ' ', ' ', ' '};
 
 void displayInit()
 {
-  alpha4.begin(0x70);  // pass in the address
-
-  alpha4.writeDigitRaw(3, 0x0);
-  alpha4.writeDigitRaw(0, 0xFFFF);
-  alpha4.writeDisplay();
-  delay(200);
-  alpha4.writeDigitRaw(0, 0x0);
-  alpha4.writeDigitRaw(1, 0xFFFF);
-  alpha4.writeDisplay();
-  delay(200);
-  alpha4.writeDigitRaw(1, 0x0);
-  alpha4.writeDigitRaw(2, 0xFFFF);
-  alpha4.writeDisplay();
-  delay(200);
-  alpha4.writeDigitRaw(2, 0x0);
-  alpha4.writeDigitRaw(3, 0xFFFF);
-  alpha4.writeDisplay();
-  delay(200);
-  
+  alpha4.begin(0x70);  // pass in the address  
   alpha4.clear();
   alpha4.writeDisplay();
 }

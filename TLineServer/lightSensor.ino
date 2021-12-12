@@ -14,6 +14,6 @@ int readSensor()
   else
     digitalWrite(LED_BUILTIN, HIGH);
   
-  delay(50);
+  delay(10);
   return l_lightRead;
 }

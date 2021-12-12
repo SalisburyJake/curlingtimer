@@ -39,8 +39,8 @@ void main_sm()
       
     case T_SET:
       lightRead = readSensor();
-      if(tlineTimeTriggered)
       //if(lightRead <= MIN_SENS_CUTOFF)  //Set this instead of the one above to bypass the second laser/sensor          
+      if(tlineTimeTriggered)
       {
         Serial.println("Hog Line has been crossed");
         t_HogLine = t_curr;
