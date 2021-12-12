@@ -1,8 +1,11 @@
-
 //VARIABLES
-int clients[5] = {0,0,0,0,0};
-const char *ssid = "famiLE";
-const char *password = "DATAD1999";
+//const char *ssid = "famiLE";
+//const char *password = "DATAD1999";
+const char *ssid = "testtesttest";
+const char *password = "Halo2maps";
+//IPAddress local_IP(192, 168, 1, 70);
+//IPAddress gateway(192, 168, 1, 254);
+//IPAddress subnet(255, 255, 255, 0);
 
 /* 
  *  Function Name: setupServer
@@ -12,7 +15,6 @@ const char *password = "DATAD1999";
  */
 void setupServer()
 {
-  
   webSocket.begin();
   webSocket.onEvent(webSocketEvent);
 }
@@ -23,11 +25,16 @@ void setupServer()
  * Inputs:         N/A
  * Outputs:        N/A
  */
-void connectToWiFi() {
+void connectToWifi() {
   Serial.println();
   
   Serial.print("Connecting to ");
   Serial.println(ssid);
+
+  // Configures static IP address
+  //if (!WiFi.config(local_IP, gateway, subnet)) {
+  //  Serial.println("STA Failed to configure");
+  //}
 
   WiFi.begin(ssid, password);
 
@@ -45,6 +52,21 @@ void connectToWiFi() {
   {
     setupServer();
   }
+
+   Serial.print("MAC: ");
+   Serial.println(WiFi.macAddress());
+}
+
+/* 
+ * Function Name: sock_sendState
+ * Description:    Send the State of the state machine
+ * Inputs:         String:msg - String to be sent via txt
+ * Outputs:        N/A
+ */
+void sock_sendState(TimerState state)
+{
+  byte payload[2] = {SOCKMSG_STATUS, state};
+  webSocket.broadcastBIN(payload, sizeof(payload));
 }
 
 /* 
@@ -78,8 +100,16 @@ void webSocketEvent(uint8_t num, WStype_t type, uint8_t * payload, size_t length
       Serial.printf("[%u] get Text: %s\n", num, payload);
       if(text.equals("TLINE_TIME"))
       {
-        tlineTime = true;
-      } 
+        tlineTimeTriggered = true;
+      }
+      else if(text.equals("HOG_ARMED"))
+      {
+        hogArmed = true;
+      }
+      else if(text.equals("HOG_UNARMED"))
+      {
+        hogArmed = false;
+      }
     }
       break;
     case WStype_BIN:
@@ -87,16 +117,4 @@ void webSocketEvent(uint8_t num, WStype_t type, uint8_t * payload, size_t length
       hexdump(payload, length);
       break;
   }
-}
-
-/* 
- * Function Name: sock_sendState
- * Description:    Send the State of the state machine
- * Inputs:         String:msg - String to be sent via txt
- * Outputs:        N/A
- */
-void sock_sendState(TimerState state)
-{
-  byte payload[2] = {SOCKMSG_STATUS, state};
-  webSocket.broadcastBIN(payload, sizeof(payload));
 }
