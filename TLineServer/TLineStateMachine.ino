@@ -1,6 +1,7 @@
 //VARIABLES
 unsigned long t_TLine = 0;
 unsigned long t_HogLine = 0; 
+TimerState prevState = ARMED;
 
 /* 
  *  Function Name: main_sm
@@ -9,13 +10,12 @@ unsigned long t_HogLine = 0;
  * Outputs:        N/A
  */
 void main_sm()
-{  
-  
+{    
   switch(state)
   {
     case NOT_ARMED:
       lightRead = readSensor();
-      if(lightRead >= MIN_SENS_CUTOFF)          
+      if((lightRead >= MIN_SENS_CUTOFF) && hogArmed == true)          
       {
         Serial.println("All Sensors are functional.  Arming....");
         state = ARMED;
@@ -39,8 +39,8 @@ void main_sm()
       
     case T_SET:
       lightRead = readSensor();
-      //if(tlineTimeTriggered)
-      if(lightRead <= MIN_SENS_CUTOFF)           
+      if(tlineTimeTriggered)
+      //if(lightRead <= MIN_SENS_CUTOFF)  //Set this instead of the one above to bypass the second laser/sensor          
       {
         Serial.println("Hog Line has been crossed");
         t_HogLine = t_curr;
@@ -60,4 +60,9 @@ void main_sm()
     case FAULT:
       break;      
   } 
+  
+  if(prevState != state)
+    Serial.println(state);
+    
+  prevState = state;
 }

@@ -1,5 +1,4 @@
 //VARIABLES
-int clients[5] = {0,0,0,0,0};
 //const char *ssid = "famiLE";
 //const char *password = "DATAD1999";
 const char *ssid = "testtesttest";
@@ -81,8 +80,6 @@ void sock_sendState(TimerState state)
  */
 void webSocketEvent(uint8_t num, WStype_t type, uint8_t * payload, size_t length) {
 
-  Serial.println("yoooooooooo");
-
   switch(type) {
     case WStype_DISCONNECTED:
       Serial.printf("[%u] Disconnected!\n", num);
@@ -104,7 +101,15 @@ void webSocketEvent(uint8_t num, WStype_t type, uint8_t * payload, size_t length
       if(text.equals("TLINE_TIME"))
       {
         tlineTimeTriggered = true;
-      } 
+      }
+      else if(text.equals("HOG_ARMED"))
+      {
+        hogArmed = true;
+      }
+      else if(text.equals("HOG_UNARMED"))
+      {
+        hogArmed = false;
+      }
     }
       break;
     case WStype_BIN:

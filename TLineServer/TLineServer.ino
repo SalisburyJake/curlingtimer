@@ -19,8 +19,10 @@ typedef enum {
 //VARIABLES            
 int lightRead = 0; 
 bool tlineTimeTriggered = false;
+bool hogArmed = false;
 unsigned long t_curr = 0;
 TimerState state = NOT_ARMED;
+int clients[5] = {0,0,0,0,0};
 
 
 WebSocketsServer webSocket = WebSocketsServer(81);
@@ -34,6 +36,7 @@ WebSocketsServer webSocket = WebSocketsServer(81);
 void setup() {
   Serial.begin(115200);
   Serial.setDebugOutput(true);
+  pinMode(LED_BUILTIN, OUTPUT);     // Initialize the LED_BUILTIN pin as an output
   displayInit();
   connectToWifi();
 } 
@@ -47,5 +50,6 @@ void setup() {
 void loop() {
   t_curr = millis();  
   webSocket.loop();
-  main_sm();  
+  if(clients[0] == 1 || clients[1] == 1 || clients[2] == 1 || clients[3] == 1 || clients[4] == 1)
+    main_sm();  
 }

@@ -4,7 +4,7 @@
 
 //DEFINES
 #define LIGHT_SENSOR A0
-#define MIN_SENS_CUTOFF 512
+#define MIN_SENS_CUTOFF 50
 
 //TYPEDEF
 typedef enum {
@@ -25,6 +25,7 @@ void setup()
 {
   Serial.begin(115200);
   Serial.setDebugOutput(true);
+  pinMode(LED_BUILTIN, OUTPUT);     // Initialize the LED_BUILTIN pin as an output
   connectToWifi();
 }
 
@@ -32,5 +33,5 @@ void setup()
 void loop()
 {
   webSocket.loop();
-  //main_sm();
+  main_sm();
 }

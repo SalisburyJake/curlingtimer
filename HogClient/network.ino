@@ -7,7 +7,7 @@
 //const char* password = "DATAD1999";
 const char *ssid = "testtesttest";
 const char *password = "Halo2maps";
-const char* host = "192.168.237.143";
+const char* host = "192.168.237.151";
 //IPAddress local_IP(192, 168, 1, 71);
 //IPAddress gateway(192, 168, 1, 254);
 //IPAddress subnet(255, 255, 255, 0);
